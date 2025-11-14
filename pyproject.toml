@@ -1,0 +1,22 @@
+[project]
+name = "lisa-bbhx-inference"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "bbhx",
+    "chainconsumer>=1.2.5",
+    "eryn>=1.2.3",
+    "jupyterlab>=4.4.9",
+    "lisa-data-challenge>=1.2.5",
+    "lisaanalysistools>=1.1.8",
+    "lisabeta>=1.0.3",
+    "lisagwresponse>=2.5.0",
+    "lisainstrument>=1.9.0",
+    "matplotlib>=3.10.7",
+    "numpy>=2.3.4",
+    "pytdi>=2.1.0",
+    "scipy>=1.16.2",
+]
+
+[tool.uv.sources]
+bbhx = { git = "https://github.com/mikekatz04/BBHx.git" }
