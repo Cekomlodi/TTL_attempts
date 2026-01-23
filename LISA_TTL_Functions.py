@@ -83,3 +83,36 @@ def compute_sangria_snr(filename, catpath):
     
     return(snrs)
 
+def sky_separation_from_chains(chain_filepath1, chain_filepath2):
+    import pandas as pd
+    import numpy as np
+    import astropy
+    from astropy.coordinates import SkyCoord
+    from astropy import units as u
+
+    names = ['beta', 'lambda', 'chi1', 'chi2', 'm1', 'm2', 'Deltat', 'phi', 'dist', 'psi', 'inc']
+    #first we need to convert the chain for lambda and beta into its value
+    beta1_file = pd.read_csv(chain_filepath1)
+    data1 = pd.DataFrame(beta1_file, columns = names)
+    beta1 = np.average(data1['beta'])
+    lambda1 = np.average(data1['lambda'])
+
+    beta2_file = pd.read_csv(chain_filepath2)
+    data2 = pd.DataFrame(beta2_file, columns = names)
+    beta2 = np.average(data2['beta'])
+    lambda2 = np.average(data2['lambda'])
+
+    print(beta1, lambda1)
+    print(beta2, lambda2)
+
+    noiseless_loc = SkyCoord(l=lambda1*u.deg, b=-beta1*u.deg, frame='galactic')
+    noisy_loc = SkyCoord(l=lambda2*u.deg, b=-beta2*u.deg, frame='galactic')
+    # Convert to ICRS (RA/Dec)
+    noiseless_loc_icrs = noiseless_loc.icrs
+    noisy_loc_icrs = noisy_loc.icrs
+    print(noiseless_loc_icrs)
+    print(noisy_loc_icrs)
+
+    separation = noiseless_loc_icrs.separation(noisy_loc_icrs)
+    print(separation, separation.degree)
+    return(separation, separation.degree)
